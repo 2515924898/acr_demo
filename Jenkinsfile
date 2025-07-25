@@ -21,6 +21,7 @@ pipeline {
                 echo '开始构建...'
                 sh '''
                             mkdir -p ~/.docker/cli-plugins
+                            docker buildx version
                             # 确保 buildx 已安装，此处略过安装步骤（你之前已处理）
                             export DOCKER_BUILDKIT=1
                             docker buildx create --use --name jenkins-builder || true
