@@ -3,8 +3,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "registry.cn-hangzhou.aliyuncs.com/dev-group/acr-server"  // 修改为你的镜像名称
         DOCKER_TAG = "${env.BUILD_NUMBER}"                 // 使用构建号作为标签
-        DOCKER_BUILDKIT = '1'
-
     }
 
 
@@ -21,9 +19,14 @@ pipeline {
         stage('Build Image') {
             steps {
                 echo '开始构建...'
-                script {
-                    docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
-                }
+                sh '''
+                            mkdir -p ~/.docker/cli-plugins
+                            # 确保 buildx 已安装，此处略过安装步骤（你之前已处理）
+                            export DOCKER_BUILDKIT=1
+                            docker buildx create --use --name jenkins-builder || true
+                            docker buildx inspect --bootstrap
+                            docker buildx build --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                        '''
             }
         }
 
