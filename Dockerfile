@@ -2,7 +2,7 @@
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
 
-FROM maven:3.8.4-jdk-11 AS builder
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 #ARG HTTP_PROXY
 #ARG HTTPS_PROXY
 #
@@ -14,7 +14,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # 运行阶段
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jdk-slim
 #ARG HTTP_PROXY
 #ARG HTTPS_PROXY
 #ENV HTTP_PROXY=${HTTP_PROXY}
