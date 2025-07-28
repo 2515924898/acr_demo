@@ -23,7 +23,7 @@ pipeline {
                             export DOCKER_BUILDKIT=1
                             docker buildx use default
                             docker buildx inspect --bootstrap
-//                             mkdir -p ~/.docker/cli-plugins
+                            # mkdir -p ~/.docker/cli-plugins
                             docker buildx version
 
                             docker buildx build \
