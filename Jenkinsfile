@@ -20,15 +20,20 @@ pipeline {
             steps {
                 echo '开始构建...'
                 sh '''
+                            export DOCKER_BUILDKIT=1
+                            # 清理旧的 builder（避免报错）
+                            docker buildx rm jenkins-builder || true
+
+                            # 创建并使用新的 builder
+                            docker buildx create --name jenkins-builder --driver docker-container --use
+                            docker buildx inspect --bootstrap
                             mkdir -p ~/.docker/cli-plugins
                             docker buildx version
-                            # 确保 buildx 已安装，此处略过安装步骤（你之前已处理）
-                            export DOCKER_BUILDKIT=1
-                            docker buildx create --use --name jenkins-builder || true
-                            docker buildx inspect --bootstrap
+
                             docker buildx build \
                                --build-arg HTTP_PROXY=http://192.168.0.112:7890 \
                                --build-arg HTTPS_PROXY=http://192.168.0.112:7890 \
+                               --pull=false \
                                --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                         '''
             }
