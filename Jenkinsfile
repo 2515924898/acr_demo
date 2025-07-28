@@ -26,7 +26,7 @@ pipeline {
                             export DOCKER_BUILDKIT=1
                             docker buildx create --use --name jenkins-builder || true
                             docker buildx inspect --bootstrap
-                            docker buildx build --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                            docker buildx build --pull=false --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                         '''
             }
         }
