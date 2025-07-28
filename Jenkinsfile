@@ -21,13 +21,9 @@ pipeline {
                 echo '开始构建...'
                 sh '''
                             export DOCKER_BUILDKIT=1
-                            # 清理旧的 builder（避免报错）
-                            docker buildx rm jenkins-builder || true
-
-                            # 创建并使用新的 builder
-                            docker buildx create --name jenkins-builder --driver docker --use
+                            docker buildx use default
                             docker buildx inspect --bootstrap
-                            mkdir -p ~/.docker/cli-plugins
+//                             mkdir -p ~/.docker/cli-plugins
                             docker buildx version
 
                             docker buildx build \
