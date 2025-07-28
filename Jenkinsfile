@@ -26,7 +26,10 @@ pipeline {
                             export DOCKER_BUILDKIT=1
                             docker buildx create --use --name jenkins-builder || true
                             docker buildx inspect --bootstrap
-                            docker buildx build --pull=false --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                            docker buildx build \
+                               --build-arg HTTP_PROXY=http://192.168.0.112:7890 \
+                               --build-arg HTTPS_PROXY=http://192.168.0.112:7890 \
+                               --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                         '''
             }
         }
