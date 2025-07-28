@@ -25,7 +25,7 @@ pipeline {
                             docker buildx rm jenkins-builder || true
 
                             # 创建并使用新的 builder
-                            docker buildx create --name jenkins-builder --driver docker-container --use
+                            docker buildx create --name jenkins-builder --driver docker --use
                             docker buildx inspect --bootstrap
                             mkdir -p ~/.docker/cli-plugins
                             docker buildx version
