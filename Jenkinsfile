@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = "registry.cn-hangzhou.aliyuncs.com/dev-group/acr-server"  // 修改为你的镜像名称
+        DOCKER_IMAGE = "acr-server"  // 修改为你的镜像名称
         DOCKER_TAG = "${env.BUILD_NUMBER}"                 // 使用构建号作为标签
     }
 
