@@ -10,6 +10,9 @@ pipeline {
         IMAGE_FULL = "${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
+    options {
+        skipDefaultCheckout()
+    }
 
     stages {
         // 阶段1：拉取代码
