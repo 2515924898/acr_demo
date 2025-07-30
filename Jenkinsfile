@@ -8,6 +8,8 @@ pipeline {
         IMAGE_NAME = "chengdu_1"
         IMAGE_TAG = "1.0.0"
         IMAGE_FULL = "${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
+        MAVEN_HOME = '/opt/maven'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
     }
 
     options {
@@ -15,6 +17,13 @@ pipeline {
     }
 
     stages {
+        stage('Env Check') {
+            steps {
+                sh 'echo $PATH'
+                sh 'which mvn || echo "mvn not found"'
+            }
+        }
+
         // 阶段1：拉取代码
         stage('Checkout') {
             steps {
