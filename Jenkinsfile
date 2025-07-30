@@ -23,6 +23,13 @@ pipeline {
             }
         }
 
+        agent {
+            docker {
+                image '3.9.4-eclipse-temurin-17'
+                args '-v /root/.m2:/root/.m2'  // 缓存依赖
+            }
+        }
+
         stage('Compile') {
             steps {
                 sh 'mvn clean compile'
