@@ -15,7 +15,7 @@ pipeline {
 
     agent {
         docker {
-            image '3.9.4-eclipse-temurin-17'
+            image 'maven:3.9.4-eclipse-temurin-17'
             args '-v /root/.m2:/root/.m2'  // 缓存依赖
         }
     }
