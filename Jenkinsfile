@@ -23,6 +23,12 @@ pipeline {
             }
         }
 
+        stage('Compile') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
         // 阶段2：构建 Docker 镜像（使用你的 Dockerfile）
         stage('Build Image') {
             steps {
