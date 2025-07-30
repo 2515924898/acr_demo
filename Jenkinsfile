@@ -14,19 +14,19 @@ pipeline {
         skipDefaultCheckout()
     }
 
+    agent {
+        docker {
+            image '3.9.4-eclipse-temurin-17'
+            args '-v /root/.m2:/root/.m2'  // 缓存依赖
+        }
+    }
+
     stages {
         // 阶段1：拉取代码
         stage('Checkout') {
             steps {
                 git branch: 'main',
                 url: 'https://github.com/2515924898/acr_demo'  // 修改为你的仓库地址
-            }
-        }
-
-        agent {
-            docker {
-                image '3.9.4-eclipse-temurin-17'
-                args '-v /root/.m2:/root/.m2'  // 缓存依赖
             }
         }
 
