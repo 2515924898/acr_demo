@@ -13,13 +13,6 @@ pipeline {
         skipDefaultCheckout()
     }
 
-    agent {
-        docker {
-            image 'maven:3.9.4-eclipse-temurin-17'
-            args '-v /root/.m2:/root/.m2'  // 缓存依赖
-        }
-    }
-
     stages {
         // 阶段1：拉取代码
         stage('Checkout') {
@@ -30,6 +23,12 @@ pipeline {
         }
 
         stage('Compile') {
+            agent {
+                docker {
+                    image 'maven:3.9.4-eclipse-temurin-17'
+                    args '-v /root/.m2:/root/.m2'  // 缓存依赖
+                }
+            }
             steps {
                 sh 'mvn clean compile'
             }
