@@ -3,6 +3,11 @@ pipeline {
     environment {
         DOCKER_IMAGE = "acr-server"  // 修改为你的镜像名称
         DOCKER_TAG = "${env.BUILD_NUMBER}"                 // 使用构建号作为标签
+        REGISTRY = "crpi-70yot60ld1y28t1c.cn-chengdu.personal.cr.aliyuncs.com"
+        NAMESPACE = "anne_acr_1"
+        IMAGE_NAME = "chengdu_1"
+        IMAGE_TAG = "1.0.0"
+        IMAGE_FULL = "${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
 
@@ -32,6 +37,26 @@ pipeline {
                                --pull=false \
                                --load -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
                         '''
+            }
+        }
+
+        stage('Login to ACR') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'acr_credentials', usernameVariable: 'ALIYUN_USER', passwordVariable: 'ALIYUN_PASS')]) {
+                    sh 'echo "$ALIYUN_PASS" | docker login --username=$ALIYUN_USER --password-stdin ${REGISTRY}'
+                }
+            }
+        }
+
+        stage('TAG') {
+             steps {
+                 sh 'docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}'
+             }
+        }
+
+        stage('Push to ACR') {
+            steps {
+                sh 'docker push ${REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}'
             }
         }
 
