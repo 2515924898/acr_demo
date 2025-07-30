@@ -13,6 +13,6 @@ RUN ls -lh /app/target
 # 运行阶段
 FROM openjdk:17-jdk-slim
 
-COPY --from=builder /app/target/acr_demo.jar /acr_demo.jar
+COPY --from=builder /app/target/acr_demo-0.0.1-SNAPSHOT.jar /acr_demo-0.0.1-SNAPSHOT.jar
 EXPOSE 8090
-CMD ["java", "-jar", "/acr_demo.jar"]
+CMD ["java", "-jar", "/acr_demo-0.0.1-SNAPSHOT.jar"]
