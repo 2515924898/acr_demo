@@ -2,14 +2,16 @@
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
 
-FROM maven:3.9.4-eclipse-temurin-17 AS builder
+#FROM maven:3.9.4-eclipse-temurin-17 AS builder
+FROM registry.cn-chengdu.aliyuncs.com/acs/maven:3.9.4-jdk-17 AS builder
 WORKDIR /app
 COPY . .
 RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 RUN ls -lh /app/target
 
 # 运行阶段
-FROM openjdk:17-jdk-slim
+#FROM openjdk:17-jdk-slim
+FROM registry.cn-chengdu.aliyuncs.com/acs/openjdk:17
 
 COPY --from=builder /app/target/acr_demo-0.0.1-SNAPSHOT.jar /acr_demo-0.0.1-SNAPSHOT.jar
 EXPOSE 8090
