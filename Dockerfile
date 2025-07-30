@@ -3,22 +3,14 @@ ARG HTTP_PROXY
 ARG HTTPS_PROXY
 
 FROM maven:3.9.4-eclipse-temurin-17 AS builder
-#ARG HTTP_PROXY
-#ARG HTTPS_PROXY
-#
-#ENV HTTP_PROXY=${HTTP_PROXY}
-#ENV HTTPS_PROXY=${HTTPS_PROXY}
-
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
+RUN ls -lh /app/target
+
 # 运行阶段
 FROM openjdk:17-jdk-slim
-#ARG HTTP_PROXY
-#ARG HTTPS_PROXY
-#ENV HTTP_PROXY=${HTTP_PROXY}
-#ENV HTTPS_PROXY=${HTTPS_PROXY}
 
 COPY --from=builder /app/target/acr_demo.jar /acr_demo.jar
 EXPOSE 8090
