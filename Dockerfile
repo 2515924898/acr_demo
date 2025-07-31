@@ -14,5 +14,5 @@ FROM openjdk:17-jdk-slim
 #FROM registry.cn-chengdu.aliyuncs.com/acs/openjdk:17
 
 COPY --from=builder /app/target/acr_demo-0.0.1-SNAPSHOT.jar /acr_demo-0.0.1-SNAPSHOT.jar
-EXPOSE 8090
+EXPOSE 8088
 CMD ["java", "-jar", "/acr_demo-0.0.1-SNAPSHOT.jar"]
